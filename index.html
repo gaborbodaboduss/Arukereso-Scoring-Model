@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0196ff" />
+    <meta
+      name="description"
+      content="Árukereső-inspired merchant opportunity scoring prototype. Evaluate and compare merchant acquisition and growth opportunities."
+    />
+    <title>Merchant Opportunity | Scoring Studio</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a
+          class="brand"
+          href="#calculator"
+          aria-label="Merchant Opportunity home"
+          data-nav="calculator"
+        >
+          <span class="brand-mark" aria-hidden="true"
+            ><svg viewBox="0 0 36 36" fill="none">
+              <path
+                d="M7 18l7.5 7.5L29 11"
+                stroke="white"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="4"
+              /></svg
+          ></span>
+          <div class="brand-text">
+            <img
+              src="./Logo_Arukereso.png"
+              alt="Árukereső"
+              class="brand-logo"
+            />
+            <span class="brand-divider">/</span>
+            <span class="brand-suffix">intelligence</span>
+          </div>
+        </a>
+        <span class="prototype-pill"
+          ><span class="status-dot"></span> CASE STUDY PROTOTYPE</span
+        >
+      </div>
+    </header>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="nav-kicker">WORKSPACE</div>
+        <nav class="main-nav" aria-label="Main navigation">
+          <button class="nav-item active" type="button" data-page="calculator">
+            <span class="nav-icon">▦</span><span>Score calculator</span>
+          </button>
+          <button class="nav-item" type="button" data-page="ranking">
+            <span class="nav-icon">▤</span><span>Merchant ranking</span
+            ><span id="saved-count" class="nav-count">0</span>
+          </button>
+          <button class="nav-item" type="button" data-page="methodology">
+            <span class="nav-icon">◎</span><span>Scoring methodology</span>
+          </button>
+        </nav>
+        <div class="sidebar-card">
+          <div class="tiny-label">MODEL VERSION</div>
+          <div class="sidebar-card-title">Opportunity Model v1.0</div>
+          <p>6 weighted criteria · status micro-scoring · fixed benchmarks.</p>
+          <div class="sidebar-rule"></div>
+          <div class="sidebar-meta">
+            <span>Source</span><b>Case study · 20 merchants</b>
+          </div>
+          <div class="sidebar-meta">
+            <span>Data</span><b>Local to your browser</b>
+          </div>
+        </div>
+        <div class="sidebar-footer">
+          Independent concept demo · Not an official Árukereső product * Owned
+          by Boda Gábor
+        </div>
+      </aside>
+
+      <main class="main">
+        <section class="page" id="page-calculator">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">MERCHANT INTELLIGENCE / 01</div>
+              <h1>Opportunity <span>scoring.</span></h1>
+              <p class="page-subtitle">
+                Turn merchant data into clear, consistent prioritization
+                decisions.
+              </p>
+            </div>
+            <button id="load-demo" class="button button-outline" type="button">
+              <span aria-hidden="true">↺</span> Load SmartHomeX example
+            </button>
+          </div>
+          <div class="layout-main">
+            <section
+              class="panel input-panel"
+              aria-labelledby="merchant-form-title"
+            >
+              <div class="panel-heading">
+                <div>
+                  <div class="panel-eyebrow">INPUT</div>
+                  <h2 id="merchant-form-title">Merchant profile</h2>
+                </div>
+                <span class="step-indicator">01 / 02</span>
+              </div>
+              <form id="merchant-form" novalidate>
+                <div class="form-group">
+                  <label for="merchant-name">Merchant name</label
+                  ><input
+                    id="merchant-name"
+                    name="merchant"
+                    type="text"
+                    value="SmartHomeX"
+                    placeholder="e.g. FitZonePro"
+                    maxlength="120"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="merchant-category"
+                    >Product category
+                    <small>neutral in this model</small></label
+                  ><input
+                    id="merchant-category"
+                    name="category"
+                    type="text"
+                    value="Smart Home"
+                    placeholder="e.g. Sports Equipment"
+                    maxlength="120"
+                  />
+                </div>
+                <div class="two-fields">
+                  <div class="form-group">
+                    <label for="merchant-budget"
+                      >PPC potential <small>EUR / month</small></label
+                    >
+                    <div class="prefixed-input">
+                      <span>€</span
+                      ><input
+                        id="merchant-budget"
+                        name="budget"
+                        inputmode="decimal"
+                        type="number"
+                        min="0"
+                        step="50"
+                        value="4000"
+                      />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="merchant-revenue"
+                      >Webshop revenue <small>EUR / month</small></label
+                    >
+                    <div class="prefixed-input">
+                      <span>€</span
+                      ><input
+                        id="merchant-revenue"
+                        name="revenue"
+                        inputmode="decimal"
+                        type="number"
+                        min="0"
+                        step="1000"
+                        value="300000"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="two-fields">
+                  <div class="form-group">
+                    <label for="merchant-price">Price index</label
+                    ><select id="merchant-price" name="price">
+                      <option value="cheap">Cheaper</option>
+                      <option value="average">Average</option>
+                      <option value="expensive">More expensive</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="merchant-competition"
+                      >Competition presence</label
+                    ><select id="merchant-competition" name="competition">
+                      <option value="high">High</option>
+                      <option value="medium">Medium</option>
+                      <option value="low">Low</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="merchant-activity"
+                    >Current lifecycle / status</label
+                  ><select id="merchant-activity" name="activity">
+                    <option value="new">Not on Heureka (+11)</option>
+                    <option value="feed">
+                      Feed submitted (+14)
+                    </option>
+                    <option value="free">FREE (+12)</option>
+                    <option value="active" selected>Active PPC (+12)</option>
+                    <option value="low">Active PPC – low spend (+17)</option>
+                  </select>
+                </div>
+                <div class="features-heading">
+                  <span>Existing platform features</span
+                  ><small>Additional micro-points</small>
+                </div>
+                <div class="check-grid">
+                  <label class="check-card"
+                    ><input id="feature-bidding" type="checkbox" checked /><span
+                      class="check-info"
+                      ><strong>Bidding</strong><small>+2 points</small></span
+                    ></label
+                  >
+                  <label class="check-card"
+                    ><input id="feature-marketplace" type="checkbox" /><span
+                      class="check-info"
+                      ><strong>Marketplace</strong
+                      ><small>+2 points</small></span
+                    ></label
+                  >
+                  <label class="check-card"
+                    ><input id="feature-vbc" type="checkbox" checked /><span
+                      class="check-info"
+                      ><strong>Verified by Customers</strong
+                      ><small>+1 point</small></span
+                    ></label
+                  >
+                </div>
+                <div class="form-group">
+                  <label for="feature-ocm">Conversion measurement (OCM)</label
+                  ><select id="feature-ocm">
+                    <option value="none">Not implemented (0)</option>
+                    <option value="implemented">Implemented (+1)</option>
+                    <option value="reliable" selected>OCM OK data (+3)</option>
+                  </select>
+                </div>
+                <label class="blocked-switch"
+                  ><input id="merchant-blocked" type="checkbox" /><span
+                    ><strong>Blocked merchant</strong
+                    ><small
+                      >Exclude from immediate outreach ranking; keep score
+                      visible.</small
+                    ></span
+                  ></label
+                >
+                <p
+                  class="inline-note hidden"
+                  id="feature-warning"
+                  role="status"
+                ></p>
+                <div class="input-actions">
+                  <button
+                    id="save-merchant"
+                    class="button button-primary"
+                    type="button"
+                  >
+                    + Add to ranking</button
+                  ><button
+                    id="clear-form"
+                    class="button button-quiet"
+                    type="button"
+                  >
+                    Reset inputs
+                  </button>
+                </div>
+              </form>
+            </section>
+
+            <div class="results-column">
+              <section class="panel score-panel" aria-labelledby="score-title">
+                <div class="panel-heading">
+                  <div>
+                    <div class="panel-eyebrow">REAL-TIME RESULT</div>
+                    <h2 id="score-title">Opportunity score</h2>
+                  </div>
+                  <span class="step-indicator">02 / 02</span>
+                </div>
+                <div class="score-top">
+                  <div class="score-ring" id="score-ring">
+                    <div class="score-inner">
+                      <span id="score-value" class="score-number">93.0</span
+                      ><span class="score-denominator">/ 100 POINTS</span>
+                    </div>
+                  </div>
+                  <div class="score-copy">
+                    <div id="eligibility-tag" class="eligibility eligible">
+                      <span class="status-dot"></span> ELIGIBLE FOR OUTREACH
+                    </div>
+                    <h3 id="score-merchant">SmartHomeX</h3>
+                    <p id="score-summary">
+                      High competition and competitive pricing. Active paid
+                      account with room for expansion.
+                    </p>
+                    <div class="score-meta">
+                      <span id="score-category">Smart Home</span
+                      ><span id="score-lifecycle">Active PPC</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="benchmark-strip">
+                  <div>
+                    <span>Fixed PPC threshold</span
+                    ><b id="ppc-benchmark-label">€4,000</b>
+                  </div>
+                  <div>
+                    <span>Fixed revenue threshold</span
+                    ><b id="revenue-benchmark-label">€300,000</b>
+                  </div>
+                  <button
+                    type="button"
+                    id="edit-benchmarks"
+                    aria-label="Edit benchmarks"
+                    title="Edit benchmarks"
+                  >
+                    ↗
+                  </button>
+                </div>
+              </section>
+
+              <section
+                class="panel breakdown-panel"
+                aria-labelledby="breakdown-title"
+              >
+                <div class="panel-heading">
+                  <div>
+                    <div class="panel-eyebrow">EXPLAINABLE SCORING</div>
+                    <h2 id="breakdown-title">Score breakdown</h2>
+                  </div>
+                  <span class="max-indicator">6 CRITERIA</span>
+                </div>
+                <div class="breakdown-list" id="breakdown-list"></div>
+                <div class="micro-box">
+                  <div>
+                    <span class="micro-head">ACTIVITY MICRO-SCORE</span
+                    ><strong id="micro-value">18 / 25</strong>
+                  </div>
+                  <p id="micro-detail">
+                    Active PPC +12 · Bidding +2 · VBC +1 · Reliable OCM +3
+                  </p>
+                </div>
+              </section>
+              <section class="next-step-panel">
+                <div class="spark-icon" aria-hidden="true">↗</div>
+                <div>
+                  <strong>What does this score mean?</strong>
+                  <p>
+                    A relative <b>opportunity priority</b>, not actual merchant
+                    profit or a prediction of sales. The baseline thresholds and
+                    weights are editable under Methodology.
+                  </p>
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
+
+        <section class="page hidden" id="page-ranking">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">MERCHANT INTELLIGENCE / 02</div>
+              <h1>Merchant <span>ranking.</span></h1>
+              <p class="page-subtitle">
+                Compare opportunities under the same fixed scoring assumptions.
+              </p>
+            </div>
+          </div>
+          <section class="panel ranking-panel">
+            <div class="ranking-toolbar">
+              <div>
+                <h2>Opportunity leaderboard</h2>
+                <p id="ranking-summary" class="muted">
+                  No merchants saved yet.
+                </p>
+              </div>
+              <div class="button-group">
+                <button
+                  id="load-20"
+                  class="button button-outline"
+                  type="button"
+                >
+                  Load 20 case-study merchants</button
+                ><button
+                  id="export-csv"
+                  class="button button-outline"
+                  type="button"
+                >
+                  ↓ Export CSV</button
+                ><button
+                  id="clear-ranking"
+                  class="button button-quiet danger-text"
+                  type="button"
+                >
+                  Clear
+                </button>
+              </div>
+            </div>
+            <div id="ranking-empty" class="empty-state">
+              <div class="empty-icon">▤</div>
+              <h3>Start your merchant ranking</h3>
+              <p>
+                Save a merchant from the calculator or load the original 20
+                fictional merchants to compare them.
+              </p>
+              <button
+                class="button button-primary"
+                id="empty-load-20"
+                type="button"
+              >
+                Load sample merchants
+              </button>
+            </div>
+            <div id="ranking-wrap" class="table-scroll hidden">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Merchant</th>
+                    <th>Opportunity score</th>
+                    <th>PPC</th>
+                    <th>Monthly revenue</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="ranking-body"></tbody>
+              </table>
+            </div>
+            <p class="table-footnote">
+              Blocked merchants keep a calculated score but are listed as
+              <b>Excluded</b> and receive no outreach rank. Ties preserve
+              original list order.
+            </p>
+          </section>
+        </section>
+
+        <section class="page hidden" id="page-methodology">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">MERCHANT INTELLIGENCE / 03</div>
+              <h1>Scoring <span>methodology.</span></h1>
+              <p class="page-subtitle">
+                Transparent weights, fixed reference points, and explicit
+                assumptions.
+              </p>
+            </div>
+          </div>
+          <div class="method-grid">
+            <section class="panel settings-panel">
+              <div class="panel-heading">
+                <div>
+                  <div class="panel-eyebrow">MODEL SETTINGS</div>
+                  <h2>Fixed benchmarks</h2>
+                </div>
+              </div>
+              <p class="muted">
+                The original case study normalized amounts to the highest
+                merchant in a group of 20. This standalone tool uses fixed,
+                editable reference points, so the same merchant always receives
+                the same score.
+              </p>
+              <div class="form-group">
+                <label for="benchmark-ppc"
+                  >Full PPC points at (€ / month)</label
+                >
+                <div class="prefixed-input">
+                  <span>€</span
+                  ><input
+                    id="benchmark-ppc"
+                    type="number"
+                    min="1"
+                    step="100"
+                    value="4000"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="benchmark-revenue"
+                  >Full revenue points at (€ / month)</label
+                >
+                <div class="prefixed-input">
+                  <span>€</span
+                  ><input
+                    id="benchmark-revenue"
+                    type="number"
+                    min="1"
+                    step="10000"
+                    value="300000"
+                  />
+                </div>
+              </div>
+              <div class="formula">
+                <span>PPC score</span><code>min(PPC ÷ benchmark, 1) × 35</code>
+              </div>
+              <div class="formula">
+                <span>Revenue score</span
+                ><code>min(revenue ÷ benchmark, 1) × 10</code>
+              </div>
+              <div class="settings-actions">
+                <button
+                  class="button button-primary"
+                  id="save-benchmarks"
+                  type="button"
+                >
+                  Save benchmarks</button
+                ><button
+                  class="button button-quiet"
+                  id="reset-benchmarks"
+                  type="button"
+                >
+                  Restore defaults
+                </button>
+              </div>
+              <div class="notice hidden">
+                <strong>Important ceiling:</strong> Activity Status is allocated
+                25 points, but the original micro-rules allow at most
+                <b>23 points</b> for a logically consistent merchant. The
+                practical maximum of this exact model is therefore
+                <b>98/100</b>. No silent adjustment has been made.
+              </div>
+            </section>
+            <section class="panel rules-panel">
+              <div class="panel-heading">
+                <div>
+                  <div class="panel-eyebrow">SCORING RULES</div>
+                  <h2>6 weighted criteria</h2>
+                </div>
+                <span class="max-indicator">100 TOTAL</span>
+              </div>
+              <div class="rules-rows">
+                <div><span>PPC budget potential</span><b>35 pts</b></div>
+                <div>
+                  <span>Activity status & micro-points</span><b>25 pts</b>
+                </div>
+                <div><span>Price position</span><b>15 pts</b></div>
+                <div><span>Monthly webshop revenue</span><b>10 pts</b></div>
+                <div><span>Competition presence</span><b>10 pts</b></div>
+                <div><span>Product category (neutral)</span><b>5 pts</b></div>
+              </div>
+              <div class="rules-subheading">Activity base points</div>
+              <div class="rules-rows compact">
+                <div><span>Not on Heureka</span><b>11</b></div>
+                <div>
+                  <span>Feed submitted</span><b>14</b>
+                </div>
+                <div><span>FREE</span><b>12</b></div>
+                <div><span>Active PPC</span><b>12</b></div>
+                <div><span>Active PPC (low spend)</span><b>17</b></div>
+              </div>
+              <div class="rules-subheading">Micro bonuses</div>
+              <div class="rules-rows compact">
+                <div><span>Bidding</span><b>+2</b></div>
+                <div><span>Marketplace</span><b>+2</b></div>
+                <div><span>VBC</span><b>+1</b></div>
+                <div><span>OCM implemented / reliable</span><b>+1 / +3</b></div>
+              </div>
+              <div class="notice soft">
+                Price: cheaper 15, average 9, more expensive 2. Competition:
+                high 10, medium 6.67, low 3.33. Category remains 5 for all.
+                These are case-study assumptions, not an official Árukereső
+                scoring standard.
+              </div>
+            </section>
+          </div>
+        </section>
+        <footer class="main-footer">
+          Built for the Heureka Group case study · Independent educational
+          prototype
+          <span
+            >Árukereső-inspired colors: <b>#0196ff</b> & <b>#fe660a</b></span
+          >
+        </footer>
+      </main>
+    </div>
+    <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html>
