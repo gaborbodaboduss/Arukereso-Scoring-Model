@@ -30,9 +30,9 @@ With this web app, those values become **fixed, editable thresholds** so individ
 | Competition Presence | 10 | High = 10, Medium = 6⅔, Low = 3⅓ |
 | Product Category | 5 | Neutral +5 for every category |
 
-Activity base scores: Not on Heureka **11**, Feed submitted **14** (plus **+1** for prepared feed), FREE **12**, Active PPC **12**, Active PPC (low spend) **15**. Additional scores: Bidding **+2**, Marketplace **+2**, VBC **+1**, OCM implemented **+1**, OCM OK data **+3** (OCM states mutually exclusive). For consistency, Bidding and Marketplace require an active PPC lifecycle. A blocked merchant has activity score **0** and is excluded from outreach ranking, but its other criteria are still calculated and displayed, matching the workbook.
+Activity base scores: Not on Heureka **11**, Feed submitted **14** (plus **+1** for prepared feed), FREE **12**, Active PPC **12**, Active PPC (low spend) **17**. Additional scores: Bidding **+2**, Marketplace **+2**, VBC **+1**, OCM implemented **+1**, OCM OK data **+3** (OCM states mutually exclusive). For consistency, Bidding and Marketplace require an active PPC lifecycle. A blocked merchant has activity score **0** and is excluded from outreach ranking, but its other criteria are still calculated and displayed, matching the workbook.
 
-**Important practical ceiling**: although Activity Status has a theoretical cap of 25, the maximum attainable under the model's current compatible base + bonus combinations is **23**. The maximum attainable overall score is therefore **98/100**, not 100. This is preserved from the case-study model rather than silently adjusted.
+**Important practical ceiling**: although Activity Status has a theoretical cap of 25, the maximum attainable under the model's current compatible base + bonus combinations is **25**. The maximum attainable overall score is therefore **100/100**, not 100. This is preserved from the case-study model rather than silently adjusted.
 
 ## Verification
 
