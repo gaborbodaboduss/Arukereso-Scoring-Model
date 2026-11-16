@@ -286,9 +286,10 @@ h1 {
   letter-spacing: -1.45px;
   margin: 0;
   font-weight: 830;
+  color: var(--blue);
 }
 h1 span {
-  color: var(--blue);
+  color: var(--orange);
 }
 .page-subtitle {
   margin: 10px 0 0;
